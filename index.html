@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>收工倒數器</title>
   <style>
     :root {
@@ -263,11 +263,13 @@
       max-width: 500px;
       border-radius: 24px 24px 0 0;
       border-top: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 24px 20px 32px;
+      padding: 20px 20px;
       max-height: 85vh;
+      max-height: 85dvh;
       overflow-y: auto;
       box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
       animation: slideUp 0.25s ease-out;
+      padding-bottom: calc(24px + env(safe-area-inset-bottom, 16px));
     }
 
     @keyframes slideUp {
@@ -279,7 +281,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     .drawer-title {
@@ -302,12 +304,12 @@
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      margin-bottom: 14px;
+      gap: 4px;
+      margin-bottom: 12px;
     }
 
     .form-group label {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color: var(--text-muted);
     }
@@ -325,9 +327,9 @@
       background: #0f172a;
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 12px;
-      padding: 12px 14px;
+      padding: 10px 12px;
       color: #fff;
-      font-size: 16px;
+      font-size: 15px;
       outline: none;
       width: 100%;
     }
@@ -340,17 +342,17 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      margin: 8px 0 16px;
+      margin: 6px 0 12px;
     }
 
     .checkbox-row input[type="checkbox"] {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       accent-color: var(--accent-green);
     }
 
     .checkbox-row label {
-      font-size: 15px;
+      font-size: 14px;
       color: var(--text-main);
     }
 
@@ -365,6 +367,7 @@
       font-weight: 800;
       cursor: pointer;
       margin-top: 10px;
+      touch-action: manipulation;
     }
   </style>
 </head>
@@ -472,7 +475,7 @@
         <label for="inputPaidLunch">午休時間算薪水 (帶薪午休)</label>
       </div>
 
-      <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 12px 0;">
+      <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 10px 0;">
 
       <div class="form-row">
         <div class="form-group">
