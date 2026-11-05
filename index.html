@@ -388,16 +388,16 @@
     <!-- Card 2: Live Salary Tracker -->
     <div class="glass-card earning-section">
       <div class="earning-title">今日累計已賺</div>
-      <div class="earning-amount" id="display-today-earned">MOP0.0000</div>
+      <div class="earning-amount" id="display-today-earned">$ 0.0000</div>
 
       <div class="metrics-grid">
         <div class="metric-box">
           <div class="metric-name">每秒入帳</div>
-          <div class="metric-val" id="display-sec-rate">MOP0.0000</div>
+          <div class="metric-val" id="display-sec-rate">$ 0.0000</div>
         </div>
         <div class="metric-box">
           <div class="metric-name">折算時薪</div>
-          <div class="metric-val" id="display-hourly-rate">MOP0.00</div>
+          <div class="metric-val" id="display-hourly-rate">$ 0.00</div>
         </div>
       </div>
     </div>
@@ -406,7 +406,7 @@
     <div class="glass-card goal-card">
       <div class="goal-header">
         <span class="goal-title" id="display-goal-name">🎯 AirPods Pro 2</span>
-        <span class="goal-cost" id="display-goal-cost">MOP1,899</span>
+        <span class="goal-cost" id="display-goal-cost">$ 1,899</span>
       </div>
       <div class="progress-track">
         <div class="progress-fill" id="goal-progress-fill"></div>
@@ -556,7 +556,7 @@
     }
 
     function formatMoney(num, decimals = 2) {
-      return 'MOP' + num.toLocaleString('zh-CN', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+      return '$ ' + num.toLocaleString('zh-CN', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
     }
 
     function formatSeconds(secs) {
