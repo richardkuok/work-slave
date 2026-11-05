@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q4_Financial_Budget_Model_v3.4.xlsx - Excel</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            excel: {
+              ribbon: '#107c41',
+              darkRibbon: '#0b5a2f',
+              headerBg: '#f3f2f1',
+              gridBorder: '#e1dfdd',
+              cellSelect: '#107c41',
+              text: '#323130',
+              cellHighlight: '#e6f2ea'
+            }
+          },
+          fontFamily: {
+            excel: ['Segoe UI', 'Calibri', 'Arial', 'sans-serif'],
+            mono: ['Consolas', 'Courier New', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Calibri, Arial, sans-serif;
+      color: #323130;
+      background-color: #f3f2f1;
+      user-select: none;
+    }
+    
+    /* Excel Table Grid Styling */
+    .excel-table td, .excel-table th {
+      border-right: 1px solid #e1dfdd;
+      border-bottom: 1px solid #e1dfdd;
+    }
+
+    .excel-header {
+      background-color: #f3f2f1;
+      color: #605e5c;
+      font-weight: 600;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .cell-selected {
+      outline: 2px solid #107c41 !important;
+      outline-offset: -2px;
+      background-color: #f4fbf7 !important;
+    }
+
+    /* Scrollbar Design */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #c8c6c4;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #979593;
+    }
+  </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden text-xs">
+
+  <!-- 1. Excel Title Bar -->
+  <div class="bg-excel-ribbon text-white px-3 py-1 flex items-center justify-between text-xs font-semibold select-none shadow-sm">
+    <div class="flex items-center space-x-3">
+      <i class="fa-solid fa-file-excel text-base"></i>
+      <span id="excel-title">Q4_Financial_Budget_Model_v3.4.xlsx - Excel</span>
+      <span class="bg-emerald-800 text-emerald-200 text-[10px] px-2 py-0.5 rounded font-mono">自動儲存已開啟</span>
+    </div>
+
+    <!-- Right Controls: Boss Key & Settings -->
+    <div class="flex items-center space-x-2 text-xs">
+      <button onclick="toggleBossMode()" class="bg-red-600 hover:bg-red-700 text-white font-bold px-2.5 py-0.5 rounded transition flex items-center gap-1 shadow-sm" title="按下 ESC 或 Space 鍵可快速觸發老闆鍵">
+        <i class="fa-solid fa-user-ninja"></i>
+        <span id="boss-btn-text">老闆鍵 (ESC/Space)</span>
+      </button>
+      <div class="h-3 w-[1px] bg-emerald-600 mx-1"></div>
+      <button onclick="openConfigModal()" class="hover:bg-excel-darkRibbon px-2 py-0.5 rounded text-white flex items-center gap-1">
+        <i class="fa-solid fa-sliders"></i> 薪資工時與目標設定
+      </button>
+    </div>
+  </div>
+
+  <!-- 2. Excel Ribbon Tabs Bar -->
+  <div class="bg-excel-ribbon text-white flex px-2 text-xs space-x-1 pt-1 border-b border-excel-darkRibbon">
+    <button class="px-3 py-1 bg-white text-excel-ribbon font-bold rounded-t">常用 (Home)</button>
+    <button class="px-3 py-1 hover:bg-excel-darkRibbon rounded-t text-emerald-100">插入 (Insert)</button>
+    <button class="px-3 py-1 hover:bg-excel-darkRibbon rounded-t text-emerald-100">頁面佈局 (Page Layout)</button>
+    <button class="px-3 py-1 hover:bg-excel-darkRibbon rounded-t text-emerald-100">公式 (Formulas)</button>
+    <button class="px-3 py-1 hover:bg-excel-darkRibbon rounded-t text-emerald-100">資料 (Data)</button>
+    <button class="px-3 py-1 hover:bg-excel-darkRibbon rounded-t text-emerald-100">檢視 (View)</button>
+  </div>
+
+  <!-- 3. Excel Ribbon Toolbar Disguise -->
+  <div class="bg-white border-b border-slate-300 p-1.5 flex items-center space-x-4 text-slate-700 shadow-sm overflow-x-auto">
+    <div class="flex items-center space-x-1 border-r border-slate-200 pr-3">
+      <button class="p-1 hover:bg-slate-100 rounded text-slate-600" title="剪下"><i class="fa-solid fa-scissors"></i></button>
+      <button class="p-1 hover:bg-slate-100 rounded text-slate-600" title="複製"><i class="fa-regular fa-copy"></i></button>
+      <button class="p-1 hover:bg-slate-100 rounded text-slate-600" title="格式刷"><i class="fa-solid fa-paint-roller"></i></button>
+    </div>
+
+    <div class="flex items-center space-x-2 border-r border-slate-200 pr-3">
+      <select class="border border-slate-300 rounded px-1 text-xs py-0.5">
+        <option>Segoe UI</option>
+        <option>Calibri</option>
+        <option>Arial</option>
+      </select>
+      <select class="border border-slate-300 rounded px-1 text-xs py-0.5">
+        <option>11</option>
+        <option selected>12</option>
+        <option>14</option>
+      </select>
+      <button class="p-1 font-bold hover:bg-slate-100 rounded">B</button>
+      <button class="p-1 italic hover:bg-slate-100 rounded">I</button>
+      <button class="p-1 underline hover:bg-slate-100 rounded">U</button>
+      <button class="p-1 hover:bg-slate-100 rounded text-emerald-700"><i class="fa-solid fa-fill-drip"></i></button>
+    </div>
+
+    <div class="flex items-center space-x-2 border-r border-slate-200 pr-3">
+      <button class="p-1 hover:bg-slate-100 rounded"><i class="fa-solid fa-align-left"></i></button>
+      <button class="p-1 hover:bg-slate-100 rounded"><i class="fa-solid fa-align-center"></i></button>
+      <button class="p-1 hover:bg-slate-100 rounded"><i class="fa-solid fa-align-right"></i></button>
+      <select class="border border-slate-300 rounded px-1 text-xs py-0.5">
+        <option selected>貨幣 (Currency $)</option>
+        <option>數字 (Number)</option>
+        <option>百分比 (Percentage %)</option>
+      </select>
+    </div>
+
+    <!-- Encouragement Slogan Bar -->
+    <div class="flex-grow text-right text-[11px] text-slate-500 italic pr-2 font-serif" id="excel-quote-bar">
+      「摸魚不是偷懶，是替資本家節省辦公室電費。」
+    </div>
+  </div>
+
+  <!-- 4. Excel Formula Bar -->
+  <div class="bg-white border-b border-slate-300 flex items-center px-2 py-1 text-xs space-x-2">
+    <div class="border border-slate-300 px-2 py-0.5 rounded font-mono font-bold text-center w-14 bg-slate-50 text-slate-700" id="active-cell-id">
+      B3
+    </div>
+    <div class="text-slate-400 font-bold italic font-serif">fx</div>
+    <input type="text" id="formula-input" readonly 
+      class="flex-grow border border-slate-300 rounded px-2 py-0.5 font-mono text-slate-800 bg-slate-50 focus:outline-none" 
+      value="=REALTIME_ACCUMULATED_SALARY_TODAY()">
+  </div>
+
+  <!-- 5. Main Spreadsheet Area (A-D Columns, Rows 1-14) -->
+  <div class="flex-grow overflow-auto relative bg-white" id="grid-container">
+    <table class="excel-table w-full border-collapse text-left" id="main-table">
+      <thead>
+        <tr>
+          <th class="excel-header w-10 min-w-[40px] sticky top-0 left-0 z-20 border-r border-b border-slate-300"></th>
+          <th class="excel-header min-w-[200px] py-1 sticky top-0 z-10">A (核心指標項目 Metric)</th>
+          <th class="excel-header min-w-[220px] py-1 sticky top-0 z-10">B (數值 / 狀態數值 Value)</th>
+          <th class="excel-header min-w-[200px] py-1 sticky top-0 z-10">C (計算公式 / 單位 Formula)</th>
+          <th class="excel-header min-w-[260px] py-1 sticky top-0 z-10">D (視覺進度狀態 Status)</th>
+        </tr>
+      </thead>
+      <tbody id="excel-tbody">
+        <!-- Content generated dynamically -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 6. Bottom Sheet Tab & Status Bar -->
+  <div class="bg-slate-100 border-t border-slate-300 flex items-center justify-between px-2 py-0.5 select-none text-xs">
+    <div class="flex items-center space-x-1">
+      <button class="p-1 text-slate-500 hover:bg-slate-200"><i class="fa-solid fa-chevron-left text-[10px]"></i></button>
+      <button class="p-1 text-slate-500 hover:bg-slate-200"><i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+      
+      <div class="flex items-center space-x-0.5 ml-2">
+        <div class="px-3 py-1 bg-white border-t-2 border-excel-ribbon border-x border-slate-300 font-bold text-excel-ribbon shadow-sm">
+          Q4_Salary_Ticker_Sheet
+        </div>
+        <div class="px-3 py-1 hover:bg-slate-200 text-slate-600 border-x border-transparent">
+          Department_Budget_2026
+        </div>
+        <div class="px-3 py-1 hover:bg-slate-200 text-slate-600 border-x border-transparent">
+          Audit_Control_Master
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center space-x-4 text-slate-600 text-[11px]">
+      <span class="flex items-center gap-1">
+        <span id="status-dot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span id="status-ready-text">就緒 (Ready)</span>
+      </span>
+      <span>每秒跳動: <strong class="font-mono text-emerald-700" id="stat-sec-rate">$0.0000</strong></span>
+      <span>今日預估加總: <strong class="font-mono text-emerald-800 font-bold" id="stat-daily-total">$0.00</strong></span>
+      <div class="flex items-center space-x-1 pl-2 border-l border-slate-300">
+        <span>100%</span>
+        <i class="fa-solid fa-magnifying-glass-plus text-xs"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal (Disguised as Excel Options) -->
+  <div id="settings-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-lg shadow-2xl border border-slate-400 w-full max-w-md p-5 text-slate-800">
+      <div class="flex justify-between items-center border-b pb-2 mb-3">
+        <h3 class="font-bold text-sm text-excel-ribbon flex items-center gap-2">
+          <i class="fa-solid fa-sliders"></i> Excel 模型參數設定 (Salary Config)
+        </h3>
+        <button onclick="closeConfigModal()" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">月薪總額 ($)</label>
+            <input type="number" id="input-salary" class="w-full border border-slate-300 rounded p-1.5 font-mono text-emerald-700 font-bold focus:outline-none focus:border-excel-ribbon" value="50000">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">每月工作天數</label>
+            <input type="number" step="0.25" id="input-workdays" class="w-full border border-slate-300 rounded p-1.5 font-mono" value="21.75">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">上班時間</label>
+            <input type="time" id="input-start" class="w-full border border-slate-300 rounded p-1.5 font-mono" value="09:00">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">下班時間</label>
+            <input type="time" id="input-end" class="w-full border border-slate-300 rounded p-1.5 font-mono" value="18:00">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">午休開始時間</label>
+            <input type="time" id="input-lunch-start" class="w-full border border-slate-300 rounded p-1.5 font-mono" value="12:00">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">午休結束時間</label>
+            <input type="time" id="input-lunch-end" class="w-full border border-slate-300 rounded p-1.5 font-mono" value="13:30">
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between p-2 bg-slate-50 border rounded">
+          <span class="font-bold text-slate-700">午休時間是否計薪？</span>
+          <select id="input-paid-lunch" class="border border-slate-300 rounded px-2 py-1 font-mono text-xs">
+            <option value="false">否 (午休時間不計薪)</option>
+            <option value="true">是 (帶薪午休)</option>
+          </select>
+        </div>
+
+        <hr class="my-2 border-slate-200">
+
+        <!-- Single Wish Goal Config -->
+        <div class="bg-emerald-50/60 p-2.5 rounded border border-emerald-200 space-y-2">
+          <label class="block font-bold text-emerald-800 text-xs flex items-center gap-1">
+            <i class="fa-solid fa-bullseye"></i> 單一願望解鎖目標
+          </label>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[11px] text-slate-600 mb-0.5">目標名稱</label>
+              <input type="text" id="input-wish-name" class="w-full border border-slate-300 rounded p-1.5 text-xs" value="AirPods Pro 2">
+            </div>
+            <div>
+              <label class="block text-[11px] text-slate-600 mb-0.5">目標金額 ($)</label>
+              <input type="number" id="input-wish-target" class="w-full border border-slate-300 rounded p-1.5 font-mono text-xs font-bold text-emerald-700" value="7490">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 flex justify-end space-x-2">
+        <button onclick="closeConfigModal()" class="px-4 py-1.5 border border-slate-300 rounded text-slate-600 hover:bg-slate-100">取消</button>
+        <button onclick="saveConfig()" class="px-4 py-1.5 bg-excel-ribbon hover:bg-excel-darkRibbon text-white rounded font-bold">套用變更</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // State Configuration
+    let config = {
+      salary: 50000,
+      workDays: 21.75,
+      workStart: "09:00",
+      workEnd: "18:00",
+      lunchStart: "12:00",
+      lunchEnd: "13:30",
+      paidLunch: false,
+      wishName: "AirPods Pro 2",
+      wishTarget: 7490
+    };
+
+    const workplaceQuotes = [
+      "只要我摸魚夠快，KPI 就追不上我。",
+      "工作只是一時的，摸魚才是永恆的。",
+      "帶薪上廁所，是打工人給資本家最體面的反抗。",
+      "能力越大，責任越大；能力越小，下班越早！",
+      "老闆發薪水，我出勞動力，大家互不相欠。"
+    ];
+
+    let isBossMode = false;
+    let selectedCellId = 'B3';
+
+    // Boss Mode Static Disguise Data
+    const bossDummyData = {
+      title: "Q4_Group_Financial_Audit_Master_2026.xlsx - Excel",
+      quote: "CONFIDENTIAL - INTERNAL AUDIT USE ONLY",
+      cells: {
+        'B2': '$50,000.00',
+        'B3': '$185,420.00',
+        'B4': '$287.36',
+        'B5': '$0.0798',
+        'B6': 'COMPLIANT',
+        'B7': '100.0%',
+        'B8': '已稽核完畢',
+        'B10': '$7,490.00',
+        'B11': '100.0%',
+        'B12': '0.0 小時'
+      }
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // 1. Load configuration from localStorage
+      const saved = localStorage.getItem('excel_niuma_config_v2');
+      if (saved) {
+        try { config = { ...config, ...JSON.parse(saved) }; } catch(e){}
+      }
+
+      // 2. Initial Render of Excel Grid Table
+      renderExcelGrid();
+
+      // 3. Start high-frequency second ticker loop
+      setInterval(updateSalaryTicker, 100);
+
+      // 4. Keyboard Shortcut Listener (Boss Key: Esc / Space)
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' || e.code === 'Space') {
+          if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT') return;
+          toggleBossMode();
+        }
+      });
+    });
+
+    // Render Grid Columns A-D and Rows 1-14
+    function renderExcelGrid() {
+      const tbody = document.getElementById('excel-tbody');
+      tbody.innerHTML = '';
+
+      const rowDefinitions = [
+        { id: 1, type: 'header' },
+        { id: 2, name: '月薪基數 (Monthly Salary)', formula: '=USER_CONFIG.SALARY' },
+        { id: 3, name: '今日累計已賺 (Earned Today)', formula: '=REALTIME_ACCUMULATED_SALARY()' },
+        { id: 4, name: '折算時薪 (Hourly Rate)', formula: '=DAILY_SALARY / WORK_HOURS' },
+        { id: 5, name: '每秒鐘收益 (Per Second Rate)', formula: '=HOURLY_RATE / 3600' },
+        { id: 6, name: '距離下班倒計時 (Countdown)', formula: '=COUNTDOWN(WORK_END)' },
+        { id: 7, name: '今日工時進度 (Workday Progress)', formula: '=WORKED_SEC / TOTAL_WORK_SEC' },
+        { id: 8, name: '當前打工狀態 (Work Status)', formula: '=CHECK_STATUS()' },
+        { id: 9, type: 'separator' },
+        { id: 10, name: '解鎖目標 (Target Goal)', formula: '=WISH.GOAL_NAME' },
+        { id: 11, name: '目標解鎖進度 (Goal Progress)', formula: '=EARNED_TODAY / TARGET_AMOUNT' },
+        { id: 12, name: '還需打工時數 (Hours Remaining)', formula: '=(TARGET - EARNED) / HOURLY_RATE' },
+        { id: 13, name: '折算還需要天數 (Days Remaining)', formula: '=REMAINING_HOURS / DAILY_WORK_HOURS' },
+        { id: 14, name: '目標解鎖狀態 (Unlock Status)', formula: '=IF(PROGRESS>=1, "UNLOCKED", "LOCKED")' }
+      ];
+
+      rowDefinitions.forEach((rowDef) => {
+        const r = rowDef.id;
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50";
+
+        // Row Header Number
+        const th = document.createElement('th');
+        th.className = "excel-header sticky left-0 z-10 border-r border-b border-slate-300 py-1";
+        th.innerText = r;
+        tr.appendChild(th);
+
+        if (rowDef.type === 'separator') {
+          // Empty Separator Row
+          for (let c = 0; c < 4; c++) {
+            const td = document.createElement('td');
+            td.className = "bg-slate-100/70 border-b border-r border-slate-200 h-4";
+            tr.appendChild(td);
+          }
+          tbody.appendChild(tr);
+          return;
+        }
+
+        for (let c = 0; c < 4; c++) {
+          const colLetter = String.fromCharCode(65 + c);
+          const cellId = `${colLetter}${r}`;
+          const td = document.createElement('td');
+          td.id = `cell-${cellId}`;
+          td.className = "px-2 py-1.5 font-mono text-xs cursor-cell border-slate-200 border-b border-r select-none";
+          td.setAttribute('onclick', `selectCell('${cellId}')`);
+
+          if (r === 1) {
+            td.className += " font-bold bg-slate-100 text-slate-700";
+          }
+
+          fillCellInitialContent(cellId, td, r, rowDef);
+          tr.appendChild(td);
+        }
+        tbody.appendChild(tr);
+      });
+
+      selectCell('B3');
+    }
+
+    function fillCellInitialContent(cellId, td, row, rowDef) {
+      if (row === 1) {
+        if (cellId === 'A1') td.innerText = "核心指標項目 (Metric)";
+        if (cellId === 'B1') td.innerText = "數值 / 狀態數值 (Value)";
+        if (cellId === 'C1') td.innerText = "計算公式 / 單位 (Formula)";
+        if (cellId === 'D1') td.innerText = "視覺進度狀態 (Status)";
+        return;
+      }
+
+      // Column A: Metric Name
+      if (cellId === `A${row}`) {
+        td.innerText = rowDef.name;
+        td.className += " text-slate-700 font-sans";
+      }
+      // Column C: Formula Display
+      else if (cellId === `C${row}`) {
+        td.innerText = rowDef.formula;
+        td.className += " text-slate-400 text-[11px]";
+      }
+      // Column B: Dynamic Values
+      else if (cellId === 'B2') {
+        td.innerHTML = `<span id="val-B2" class="font-bold text-slate-800">$${config.salary.toLocaleString()}</span>`;
+      } else if (cellId === 'B3') {
+        td.innerHTML = `<span id="val-B3" class="font-bold text-emerald-700 bg-emerald-100/80 px-1.5 py-0.5 rounded">$0.0000</span>`;
+      } else if (cellId === 'B4') {
+        td.innerHTML = `<span id="val-B4" class="text-slate-800">$0.00</span>`;
+      } else if (cellId === 'B5') {
+        td.innerHTML = `<span id="val-B5" class="text-emerald-600 font-bold">$0.0000</span>`;
+      } else if (cellId === 'B6') {
+        td.innerHTML = `<span id="val-B6" class="font-bold text-amber-700">00:00:00</span>`;
+      } else if (cellId === 'B7') {
+        td.innerHTML = `<span id="val-B7" class="text-blue-700 font-bold">0.0%</span>`;
+      } else if (cellId === 'B8') {
+        td.innerHTML = `<span id="val-B8" class="font-bold text-slate-700">計算中...</span>`;
+      } else if (cellId === 'B10') {
+        td.innerHTML = `<span id="val-B10" class="font-bold text-purple-800">${config.wishName} ($${config.wishTarget.toLocaleString()})</span>`;
+      } else if (cellId === 'B11') {
+        td.innerHTML = `<span id="val-B11" class="font-bold text-emerald-700">0.0%</span>`;
+      } else if (cellId === 'B12') {
+        td.innerHTML = `<span id="val-B12" class="font-bold text-slate-700">0.0 小時</span>`;
+      } else if (cellId === 'B13') {
+        td.innerHTML = `<span id="val-B13" class="font-bold text-slate-700">0.0 天</span>`;
+      } else if (cellId === 'B14') {
+        td.innerHTML = `<span id="val-B14" class="font-bold text-slate-500">🔒 鎖定中</span>`;
+      }
+
+      // Column D: Visual Progress / Bars
+      else if (cellId === 'D7') {
+        td.innerHTML = `
+          <div class="w-full bg-slate-200 h-3 rounded overflow-hidden flex items-center">
+            <div id="bar-work" class="bg-blue-600 h-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+        `;
+      } else if (cellId === 'D11') {
+        td.innerHTML = `
+          <div class="w-full bg-slate-200 h-3 rounded overflow-hidden flex items-center">
+            <div id="bar-wish" class="bg-emerald-600 h-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+        `;
+      }
+    }
+
+    // Main Automatic Calculation & Ticker Loop
+    function updateSalaryTicker() {
+      if (isBossMode) return;
+
+      const now = new Date();
+      const dailySalary = config.salary / (config.workDays || 21.75);
+
+      const startSec = timeToSec(config.workStart);
+      const endSec = timeToSec(config.workEnd);
+      const lunchStartSec = timeToSec(config.lunchStart);
+      const lunchEndSec = timeToSec(config.lunchEnd);
+
+      // Lunch duration calculation
+      let lunchDuration = 0;
+      if (!config.paidLunch) {
+        lunchDuration = Math.max(0, lunchEndSec - lunchStartSec);
+      }
+
+      const totalWorkSec = Math.max(1, (endSec - startSec) - lunchDuration);
+      const perSecRate = dailySalary / totalWorkSec;
+      const hourlyRate = perSecRate * 3600;
+      const dailyWorkHours = totalWorkSec / 3600;
+
+      const currentSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+
+      let earnedToday = 0;
+      let workedSec = 0;
+      let statusText = "打工中 💼";
+
+      if (currentSec < startSec) {
+        earnedToday = 0;
+        workedSec = 0;
+        statusText = "未到上班時間 ⏰";
+      } else if (currentSec >= endSec) {
+        earnedToday = dailySalary;
+        workedSec = totalWorkSec;
+        statusText = "已下班 自由啦 🎉";
+      } else {
+        if (currentSec >= lunchStartSec && currentSec < lunchEndSec) {
+          if (!config.paidLunch) {
+            workedSec = Math.max(0, lunchStartSec - startSec);
+            statusText = "午休中 (不計薪) 🍱";
+          } else {
+            workedSec = currentSec - startSec;
+            statusText = "帶薪午休中 🍱";
+          }
+        } else {
+          if (!config.paidLunch && currentSec >= lunchEndSec) {
+            workedSec = (currentSec - startSec) - (lunchEndSec - lunchStartSec);
+          } else {
+            workedSec = currentSec - startSec;
+          }
+          statusText = "努力摸魚賺錢中 🚀";
+        }
+        earnedToday = workedSec * perSecRate;
+      }
+
+      // Update DOM values
+      const valB3 = document.getElementById('val-B3');
+      const valB4 = document.getElementById('val-B4');
+      const valB5 = document.getElementById('val-B5');
+      const valB6 = document.getElementById('val-B6');
+      const valB7 = document.getElementById('val-B7');
+      const valB8 = document.getElementById('val-B8');
+
+      if (valB3) valB3.innerText = `$${earnedToday.toFixed(4)}`;
+      if (valB4) valB4.innerText = `$${hourlyRate.toFixed(2)}`;
+      if (valB5) valB5.innerText = `$${perSecRate.toFixed(4)}`;
+      if (valB8) valB8.innerText = statusText;
+
+      const remainingSec = Math.max(0, endSec - currentSec);
+      if (valB6) valB6.innerText = secToHHMMSS(remainingSec);
+
+      const workProgressPct = Math.min(100, Math.max(0, (workedSec / totalWorkSec) * 100));
+      if (valB7) valB7.innerText = `${workProgressPct.toFixed(1)}%`;
+      
+      const barWork = document.getElementById('bar-work');
+      if (barWork) barWork.style.width = `${workProgressPct}%`;
+
+      // Update Wish Goal Computations
+      const valB10 = document.getElementById('val-B10');
+      const valB11 = document.getElementById('val-B11');
+      const valB12 = document.getElementById('val-B12');
+      const valB13 = document.getElementById('val-B13');
+      const valB14 = document.getElementById('val-B14');
+      const barWish = document.getElementById('bar-wish');
+
+      if (valB10) valB10.innerText = `${config.wishName} ($${config.wishTarget.toLocaleString()})`;
+
+      const wishTarget = config.wishTarget || 1;
+      const wishProgressPct = Math.min(100, (earnedToday / wishTarget) * 100);
+      if (valB11) valB11.innerText = `${wishProgressPct.toFixed(1)}%`;
+      if (barWish) barWish.style.width = `${wishProgressPct}%`;
+
+      const remainingMoney = Math.max(0, wishTarget - earnedToday);
+      const hoursRemaining = remainingMoney / (hourlyRate || 1);
+      const daysRemaining = hoursRemaining / (dailyWorkHours || 8);
+
+      if (valB12) valB12.innerText = `${hoursRemaining.toFixed(1)} 小時`;
+      if (valB13) valB13.innerText = `${daysRemaining.toFixed(1)} 天`;
+
+      if (valB14) {
+        if (wishProgressPct >= 100) {
+          valB14.innerHTML = `<span class="text-emerald-600 font-bold">🎉 已成功解鎖！</span>`;
+        } else {
+          valB14.innerHTML = `<span class="text-amber-600 font-bold">🔒 解鎖中 (${wishProgressPct.toFixed(0)}%)</span>`;
+        }
+      }
+
+      // Update Bottom Status Bar Indicators
+      document.getElementById('stat-sec-rate').innerText = `$${perSecRate.toFixed(4)}`;
+      document.getElementById('stat-daily-total').innerText = `$${dailySalary.toFixed(2)}`;
+    }
+
+    // Boss Mode Stealth Switcher
+    function toggleBossMode() {
+      isBossMode = !isBossMode;
+      const title = document.getElementById('excel-title');
+      const quote = document.getElementById('excel-quote-bar');
+      const bossBtn = document.getElementById('boss-btn-text');
+
+      if (isBossMode) {
+        title.innerText = bossDummyData.title;
+        quote.innerText = bossDummyData.quote;
+        bossBtn.innerText = "解除偽裝 (Resume)";
+
+        document.getElementById('val-B2').innerText = bossDummyData.cells['B2'];
+        document.getElementById('val-B3').innerText = bossDummyData.cells['B3'];
+        document.getElementById('val-B4').innerText = bossDummyData.cells['B4'];
+        document.getElementById('val-B5').innerText = bossDummyData.cells['B5'];
+        document.getElementById('val-B6').innerText = bossDummyData.cells['B6'];
+        document.getElementById('val-B7').innerText = bossDummyData.cells['B7'];
+        document.getElementById('val-B8').innerText = bossDummyData.cells['B8'];
+        document.getElementById('val-B11').innerText = bossDummyData.cells['B11'];
+        document.getElementById('val-B12').innerText = bossDummyData.cells['B12'];
+        document.getElementById('formula-input').value = "=SUM(Q4_AUDIT_EXPENDITURE_INDEX)";
+      } else {
+        title.innerText = "Q4_Financial_Budget_Model_v3.4.xlsx - Excel";
+        quote.innerText = `「${workplaceQuotes[Math.floor(Math.random() * workplaceQuotes.length)]}」`;
+        bossBtn.innerText = "老闆鍵 (ESC/Space)";
+        document.getElementById('formula-input').value = "=REALTIME_ACCUMULATED_SALARY_TODAY()";
+      }
+    }
+
+    function selectCell(cellId) {
+      if (selectedCellId) {
+        const prev = document.getElementById(`cell-${selectedCellId}`);
+        if (prev) prev.classList.remove('cell-selected');
+      }
+      selectedCellId = cellId;
+      const current = document.getElementById(`cell-${cellId}`);
+      if (current) current.classList.add('cell-selected');
+
+      document.getElementById('active-cell-id').innerText = cellId;
+    }
+
+    function openConfigModal() {
+      document.getElementById('input-salary').value = config.salary;
+      document.getElementById('input-workdays').value = config.workDays || 21.75;
+      document.getElementById('input-start').value = config.workStart;
+      document.getElementById('input-end').value = config.workEnd;
+      document.getElementById('input-lunch-start').value = config.lunchStart;
+      document.getElementById('input-lunch-end').value = config.lunchEnd;
+      document.getElementById('input-paid-lunch').value = config.paidLunch ? "true" : "false";
+      document.getElementById('input-wish-name').value = config.wishName;
+      document.getElementById('input-wish-target').value = config.wishTarget;
+
+      document.getElementById('settings-modal').classList.remove('hidden');
+    }
+
+    function closeConfigModal() {
+      document.getElementById('settings-modal').classList.add('hidden');
+    }
+
+    function saveConfig() {
+      config.salary = parseFloat(document.getElementById('input-salary').value) || 50000;
+      config.workDays = parseFloat(document.getElementById('input-workdays').value) || 21.75;
+      config.workStart = document.getElementById('input-start').value;
+      config.workEnd = document.getElementById('input-end').value;
+      config.lunchStart = document.getElementById('input-lunch-start').value;
+      config.lunchEnd = document.getElementById('input-lunch-end').value;
+      config.paidLunch = document.getElementById('input-paid-lunch').value === "true";
+      config.wishName = document.getElementById('input-wish-name').value || "願望目標";
+      config.wishTarget = parseFloat(document.getElementById('input-wish-target').value) || 1000;
+
+      // Persist user choices in LocalStorage
+      localStorage.setItem('excel_niuma_config_v2', JSON.stringify(config));
+
+      document.getElementById('val-B2').innerText = `$${config.salary.toLocaleString()}`;
+      document.getElementById('val-B10').innerText = `${config.wishName} ($${config.wishTarget.toLocaleString()})`;
+
+      closeConfigModal();
+    }
+
+    function timeToSec(str) {
+      if (!str) return 0;
+      const p = str.split(':').map(Number);
+      return p[0] * 3600 + p[1] * 60;
+    }
+
+    function secToHHMMSS(sec) {
+      const h = Math.floor(sec / 3600).toString().padStart(2, '0');
+      const m = Math.floor((sec % 3600) / 60).toString().padStart(2, '0');
+      const s = Math.floor(sec % 60).toString().padStart(2, '0');
+      return `${h}:${m}:${s}`;
+    }
+  </script>
+</body>
+</html>
