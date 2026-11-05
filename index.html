@@ -39,6 +39,7 @@
       color: #323130;
       background-color: #f3f2f1;
       user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
     
     /* Excel Table Grid Styling */
@@ -63,116 +64,116 @@
 
     /* Scrollbar Design */
     ::-webkit-scrollbar {
-      width: 10px;
-      height: 10px;
+      width: 6px;
+      height: 6px;
     }
     ::-webkit-scrollbar-track {
       background: #f1f1f1;
     }
     ::-webkit-scrollbar-thumb {
       background: #c8c6c4;
+      border-radius: 3px;
     }
     ::-webkit-scrollbar-thumb:hover {
       background: #979593;
+    }
+
+    /* Hide horizontal scrollbar for ribbon tabs on mobile */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
   </style>
 </head>
 <body class="h-screen flex flex-col overflow-hidden text-xs">
 
-  <!-- 1. Excel Title Bar -->
-  <div class="bg-excel-ribbon text-white px-3 py-1 flex items-center justify-between text-xs font-semibold select-none shadow-sm">
-    <div class="flex items-center space-x-3">
-      <i class="fa-solid fa-file-excel text-base"></i>
-      <span id="excel-title">Q4_Financial_Budget_Model_v3.4.xlsx - Excel</span>
-      <span class="bg-emerald-800 text-emerald-200 text-[10px] px-2 py-0.5 rounded font-mono">自動儲存已開啟</span>
+  <!-- 1. Excel Title Bar (Mobile Responsive) -->
+  <div class="bg-excel-ribbon text-white px-2.5 sm:px-3 py-1.5 flex items-center justify-between text-xs font-semibold select-none shadow-sm gap-2">
+    <div class="flex items-center space-x-1.5 sm:space-x-3 min-w-0">
+      <i class="fa-solid fa-file-excel text-sm sm:text-base shrink-0"></i>
+      <span id="excel-title" class="truncate font-medium text-[11px] sm:text-xs">Q4_Financial_Budget_Model_v3.4.xlsx - Excel</span>
+      <span class="hidden md:inline-block bg-emerald-800 text-emerald-200 text-[10px] px-2 py-0.5 rounded font-mono shrink-0">自動儲存已開啟</span>
     </div>
 
     <!-- Right Controls: Boss Key & Settings -->
-    <div class="flex items-center space-x-2 text-xs">
-      <button onclick="toggleBossMode()" class="bg-red-600 hover:bg-red-700 text-white font-bold px-2.5 py-0.5 rounded transition flex items-center gap-1 shadow-sm" title="按下 ESC 或 Space 鍵可快速觸發老闆鍵">
+    <div class="flex items-center space-x-1.5 sm:space-x-2 text-xs shrink-0">
+      <button onclick="toggleBossMode()" class="bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-bold px-2 sm:px-2.5 py-1 sm:py-0.5 rounded transition flex items-center gap-1 shadow-sm text-[11px] sm:text-xs" title="按下 ESC 或 Space 鍵可快速觸發老闆鍵">
         <i class="fa-solid fa-user-ninja"></i>
-        <span id="boss-btn-text">老闆鍵 (ESC/Space)</span>
+        <span id="boss-btn-text" class="hidden sm:inline">老闆鍵 (ESC/Space)</span>
+        <span class="sm:hidden">老闆鍵</span>
       </button>
-      <div class="h-3 w-[1px] bg-emerald-600 mx-1"></div>
-      <button onclick="openConfigModal()" class="hover:bg-excel-darkRibbon px-2 py-0.5 rounded text-white flex items-center gap-1">
-        <i class="fa-solid fa-sliders"></i> 薪資工時與目標設定
+      <div class="h-3 w-[1px] bg-emerald-600 mx-0.5 sm:mx-1"></div>
+      <button onclick="openConfigModal()" class="hover:bg-excel-darkRibbon active:bg-excel-darkRibbon p-1.5 sm:px-2 sm:py-0.5 rounded text-white flex items-center gap-1 text-[11px] sm:text-xs">
+        <i class="fa-solid fa-sliders text-sm sm:text-xs"></i>
+        <span class="hidden md:inline">薪資工時與目標設定</span>
       </button>
     </div>
   </div>
 
-  <!-- 2. Excel Ribbon Tabs Bar -->
-  <div class="bg-excel-ribbon text-white flex px-2 text-xs space-x-1 pt-1 border-b border-excel-darkRibbon">
-    <button class="px-3 py-1 bg-white text-excel-ribbon font-bold rounded-t">常用 (Home)</button>
-    <button class="px-3 py-1 hover:bg-excel-darkRibbon rounded-t text-emerald-100">插入 (Insert)</button>
-    <button class="px-3 py-1 hover:bg-excel-darkRibbon rounded-t text-emerald-100">頁面佈局 (Page Layout)</button>
-    <button class="px-3 py-1 hover:bg-excel-darkRibbon rounded-t text-emerald-100">公式 (Formulas)</button>
-    <button class="px-3 py-1 hover:bg-excel-darkRibbon rounded-t text-emerald-100">資料 (Data)</button>
-    <button class="px-3 py-1 hover:bg-excel-darkRibbon rounded-t text-emerald-100">檢視 (View)</button>
+  <!-- 2. Excel Ribbon Tabs Bar (Horizontal Scroll on Mobile) -->
+  <div class="bg-excel-ribbon text-white flex px-2 text-xs space-x-1 pt-1 border-b border-excel-darkRibbon overflow-x-auto no-scrollbar shrink-0">
+    <button class="px-2.5 sm:px-3 py-1 bg-white text-excel-ribbon font-bold rounded-t whitespace-nowrap text-[11px] sm:text-xs">常用 (Home)</button>
+    <button class="px-2.5 sm:px-3 py-1 hover:bg-excel-darkRibbon rounded-t text-emerald-100 whitespace-nowrap text-[11px] sm:text-xs">插入 (Insert)</button>
+    <button class="px-2.5 sm:px-3 py-1 hover:bg-excel-darkRibbon rounded-t text-emerald-100 whitespace-nowrap text-[11px] sm:text-xs">頁面佈局 (Page Layout)</button>
+    <button class="px-2.5 sm:px-3 py-1 hover:bg-excel-darkRibbon rounded-t text-emerald-100 whitespace-nowrap text-[11px] sm:text-xs">公式 (Formulas)</button>
+    <button class="px-2.5 sm:px-3 py-1 hover:bg-excel-darkRibbon rounded-t text-emerald-100 whitespace-nowrap text-[11px] sm:text-xs">資料 (Data)</button>
+    <button class="px-2.5 sm:px-3 py-1 hover:bg-excel-darkRibbon rounded-t text-emerald-100 whitespace-nowrap text-[11px] sm:text-xs">檢視 (View)</button>
   </div>
 
-  <!-- 3. Excel Ribbon Toolbar Disguise -->
-  <div class="bg-white border-b border-slate-300 p-1.5 flex items-center space-x-4 text-slate-700 shadow-sm overflow-x-auto">
-    <div class="flex items-center space-x-1 border-r border-slate-200 pr-3">
-      <button class="p-1 hover:bg-slate-100 rounded text-slate-600" title="剪下"><i class="fa-solid fa-scissors"></i></button>
-      <button class="p-1 hover:bg-slate-100 rounded text-slate-600" title="複製"><i class="fa-regular fa-copy"></i></button>
-      <button class="p-1 hover:bg-slate-100 rounded text-slate-600" title="格式刷"><i class="fa-solid fa-paint-roller"></i></button>
+  <!-- 3. Excel Ribbon Toolbar Disguise (Mobile Scrollable) -->
+  <div class="bg-white border-b border-slate-300 p-1 sm:p-1.5 flex items-center space-x-2 sm:space-x-4 text-slate-700 shadow-sm overflow-x-auto no-scrollbar shrink-0">
+    <div class="flex items-center space-x-1 border-r border-slate-200 pr-2 sm:pr-3 shrink-0">
+      <button class="p-1 hover:bg-slate-100 rounded text-slate-600" title="剪下"><i class="fa-solid fa-scissors text-xs"></i></button>
+      <button class="p-1 hover:bg-slate-100 rounded text-slate-600" title="複製"><i class="fa-regular fa-copy text-xs"></i></button>
+      <button class="p-1 hover:bg-slate-100 rounded text-slate-600" title="格式刷"><i class="fa-solid fa-paint-roller text-xs"></i></button>
     </div>
 
-    <div class="flex items-center space-x-2 border-r border-slate-200 pr-3">
-      <select class="border border-slate-300 rounded px-1 text-xs py-0.5">
+    <div class="flex items-center space-x-1.5 sm:space-x-2 border-r border-slate-200 pr-2 sm:pr-3 shrink-0">
+      <select class="border border-slate-300 rounded px-1 text-[11px] sm:text-xs py-0.5 bg-white">
         <option>Segoe UI</option>
         <option>Calibri</option>
         <option>Arial</option>
       </select>
-      <select class="border border-slate-300 rounded px-1 text-xs py-0.5">
+      <select class="border border-slate-300 rounded px-1 text-[11px] sm:text-xs py-0.5 bg-white">
         <option>11</option>
         <option selected>12</option>
         <option>14</option>
       </select>
-      <button class="p-1 font-bold hover:bg-slate-100 rounded">B</button>
-      <button class="p-1 italic hover:bg-slate-100 rounded">I</button>
-      <button class="p-1 underline hover:bg-slate-100 rounded">U</button>
-      <button class="p-1 hover:bg-slate-100 rounded text-emerald-700"><i class="fa-solid fa-fill-drip"></i></button>
-    </div>
-
-    <div class="flex items-center space-x-2 border-r border-slate-200 pr-3">
-      <button class="p-1 hover:bg-slate-100 rounded"><i class="fa-solid fa-align-left"></i></button>
-      <button class="p-1 hover:bg-slate-100 rounded"><i class="fa-solid fa-align-center"></i></button>
-      <button class="p-1 hover:bg-slate-100 rounded"><i class="fa-solid fa-align-right"></i></button>
-      <select class="border border-slate-300 rounded px-1 text-xs py-0.5">
-        <option selected>貨幣 (Currency $)</option>
-        <option>數字 (Number)</option>
-        <option>百分比 (Percentage %)</option>
-      </select>
+      <button class="p-1 font-bold hover:bg-slate-100 rounded text-xs">B</button>
+      <button class="p-1 italic hover:bg-slate-100 rounded text-xs">I</button>
+      <button class="p-1 underline hover:bg-slate-100 rounded text-xs">U</button>
     </div>
 
     <!-- Encouragement Slogan Bar -->
-    <div class="flex-grow text-right text-[11px] text-slate-500 italic pr-2 font-serif" id="excel-quote-bar">
+    <div class="flex-grow text-right text-[10px] sm:text-[11px] text-slate-500 italic pr-2 font-serif truncate min-w-[120px]" id="excel-quote-bar">
       「摸魚不是偷懶，是替資本家節省辦公室電費。」
     </div>
   </div>
 
   <!-- 4. Excel Formula Bar -->
-  <div class="bg-white border-b border-slate-300 flex items-center px-2 py-1 text-xs space-x-2">
-    <div class="border border-slate-300 px-2 py-0.5 rounded font-mono font-bold text-center w-14 bg-slate-50 text-slate-700" id="active-cell-id">
+  <div class="bg-white border-b border-slate-300 flex items-center px-1.5 sm:px-2 py-1 text-xs space-x-1.5 sm:space-x-2 shrink-0">
+    <div class="border border-slate-300 px-1.5 sm:px-2 py-0.5 rounded font-mono font-bold text-center min-w-[38px] sm:w-14 bg-slate-50 text-slate-700 text-[11px] sm:text-xs shrink-0" id="active-cell-id">
       B3
     </div>
-    <div class="text-slate-400 font-bold italic font-serif">fx</div>
+    <div class="text-slate-400 font-bold italic font-serif shrink-0 text-xs">fx</div>
     <input type="text" id="formula-input" readonly 
-      class="flex-grow border border-slate-300 rounded px-2 py-0.5 font-mono text-slate-800 bg-slate-50 focus:outline-none" 
+      class="flex-grow border border-slate-300 rounded px-1.5 sm:px-2 py-0.5 font-mono text-slate-800 bg-slate-50 focus:outline-none text-[11px] sm:text-xs truncate" 
       value="=REALTIME_ACCUMULATED_SALARY_TODAY()">
   </div>
 
-  <!-- 5. Main Spreadsheet Area (A-D Columns, Rows 1-14) -->
-  <div class="flex-grow overflow-auto relative bg-white" id="grid-container">
-    <table class="excel-table w-full border-collapse text-left" id="main-table">
+  <!-- 5. Main Spreadsheet Area (A-D Columns) -->
+  <div class="flex-grow overflow-auto relative bg-white touch-pan-x touch-pan-y" id="grid-container">
+    <table class="excel-table w-full border-collapse text-left min-w-[620px] sm:min-w-full" id="main-table">
       <thead>
         <tr>
-          <th class="excel-header w-10 min-w-[40px] sticky top-0 left-0 z-20 border-r border-b border-slate-300"></th>
-          <th class="excel-header min-w-[200px] py-1 sticky top-0 z-10">A (核心指標項目 Metric)</th>
-          <th class="excel-header min-w-[220px] py-1 sticky top-0 z-10">B (數值 / 狀態數值 Value)</th>
-          <th class="excel-header min-w-[200px] py-1 sticky top-0 z-10">C (計算公式 / 單位 Formula)</th>
-          <th class="excel-header min-w-[260px] py-1 sticky top-0 z-10">D (視覺進度狀態 Status)</th>
+          <th class="excel-header w-8 sm:w-10 min-w-[32px] sm:min-w-[40px] sticky top-0 left-0 z-20 border-r border-b border-slate-300"></th>
+          <th class="excel-header w-[35%] min-w-[150px] sm:min-w-[190px] py-1 sticky top-0 z-10">A (指標 Metric)</th>
+          <th class="excel-header w-[30%] min-w-[140px] sm:min-w-[180px] py-1 sticky top-0 z-10">B (數值 Value)</th>
+          <th class="excel-header w-[20%] min-w-[120px] sm:min-w-[160px] py-1 sticky top-0 z-10 hidden sm:table-cell">C (公式 Formula)</th>
+          <th class="excel-header w-[15%] min-w-[120px] sm:min-w-[180px] py-1 sticky top-0 z-10">D (狀態 Status)</th>
         </tr>
       </thead>
       <tbody id="excel-tbody">
@@ -182,86 +183,79 @@
   </div>
 
   <!-- 6. Bottom Sheet Tab & Status Bar -->
-  <div class="bg-slate-100 border-t border-slate-300 flex items-center justify-between px-2 py-0.5 select-none text-xs">
-    <div class="flex items-center space-x-1">
-      <button class="p-1 text-slate-500 hover:bg-slate-200"><i class="fa-solid fa-chevron-left text-[10px]"></i></button>
-      <button class="p-1 text-slate-500 hover:bg-slate-200"><i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+  <div class="bg-slate-100 border-t border-slate-300 flex flex-col sm:flex-row sm:items-center justify-between px-2 py-1 sm:py-0.5 select-none text-[11px] sm:text-xs gap-1 sm:gap-0 shrink-0">
+    <div class="flex items-center space-x-1 overflow-x-auto no-scrollbar">
+      <button class="p-1 text-slate-500 hover:bg-slate-200 shrink-0"><i class="fa-solid fa-chevron-left text-[10px]"></i></button>
+      <button class="p-1 text-slate-500 hover:bg-slate-200 shrink-0"><i class="fa-solid fa-chevron-right text-[10px]"></i></button>
       
-      <div class="flex items-center space-x-0.5 ml-2">
-        <div class="px-3 py-1 bg-white border-t-2 border-excel-ribbon border-x border-slate-300 font-bold text-excel-ribbon shadow-sm">
+      <div class="flex items-center space-x-0.5 ml-1 shrink-0">
+        <div class="px-2.5 sm:px-3 py-0.5 sm:py-1 bg-white border-t-2 border-excel-ribbon border-x border-slate-300 font-bold text-excel-ribbon shadow-sm whitespace-nowrap text-[11px]">
           Q4_Salary_Ticker_Sheet
         </div>
-        <div class="px-3 py-1 hover:bg-slate-200 text-slate-600 border-x border-transparent">
-          Department_Budget_2026
-        </div>
-        <div class="px-3 py-1 hover:bg-slate-200 text-slate-600 border-x border-transparent">
-          Audit_Control_Master
+        <div class="px-2 sm:px-3 py-0.5 sm:py-1 hover:bg-slate-200 text-slate-600 border-x border-transparent whitespace-nowrap text-[11px] hidden sm:block">
+          Department_Budget
         </div>
       </div>
     </div>
 
-    <div class="flex items-center space-x-4 text-slate-600 text-[11px]">
+    <div class="flex items-center justify-between sm:justify-end space-x-2 sm:space-x-4 text-slate-600 text-[10px] sm:text-[11px]">
       <span class="flex items-center gap-1">
-        <span id="status-dot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-        <span id="status-ready-text">就緒 (Ready)</span>
+        <span id="status-dot" class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span id="status-ready-text">就緒</span>
       </span>
-      <span>每秒跳動: <strong class="font-mono text-emerald-700" id="stat-sec-rate">$0.0000</strong></span>
-      <span>今日預估加總: <strong class="font-mono text-emerald-800 font-bold" id="stat-daily-total">$0.00</strong></span>
-      <div class="flex items-center space-x-1 pl-2 border-l border-slate-300">
-        <span>100%</span>
-        <i class="fa-solid fa-magnifying-glass-plus text-xs"></i>
-      </div>
+      <span>每秒: <strong class="font-mono text-emerald-700" id="stat-sec-rate">$0.0000</strong></span>
+      <span>日預估: <strong class="font-mono text-emerald-800 font-bold" id="stat-daily-total">$0.00</strong></span>
     </div>
   </div>
 
-  <!-- Settings Modal (Disguised as Excel Options) -->
-  <div id="settings-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center hidden">
-    <div class="bg-white rounded-lg shadow-2xl border border-slate-400 w-full max-w-md p-5 text-slate-800">
-      <div class="flex justify-between items-center border-b pb-2 mb-3">
-        <h3 class="font-bold text-sm text-excel-ribbon flex items-center gap-2">
+  <!-- Settings Modal (Mobile Responsive) -->
+  <div id="settings-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center hidden p-0 sm:p-4">
+    <div class="bg-white rounded-t-xl sm:rounded-lg shadow-2xl border border-slate-400 w-full sm:max-w-md max-h-[90vh] flex flex-col text-slate-800 animate-in slide-in-from-bottom duration-200">
+      <div class="flex justify-between items-center border-b p-3 sm:p-4 shrink-0">
+        <h3 class="font-bold text-xs sm:text-sm text-excel-ribbon flex items-center gap-2">
           <i class="fa-solid fa-sliders"></i> Excel 模型參數設定 (Salary Config)
         </h3>
-        <button onclick="closeConfigModal()" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark"></i></button>
+        <button onclick="closeConfigModal()" class="text-slate-400 hover:text-slate-700 p-1 text-base"><i class="fa-solid fa-xmark"></i></button>
       </div>
 
-      <div class="space-y-3 text-xs">
-        <div class="grid grid-cols-2 gap-2">
+      <div class="p-3 sm:p-5 space-y-3 text-xs overflow-y-auto flex-grow">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           <div>
             <label class="block font-bold text-slate-700 mb-1">月薪總額 ($)</label>
-            <input type="number" id="input-salary" class="w-full border border-slate-300 rounded p-1.5 font-mono text-emerald-700 font-bold focus:outline-none focus:border-excel-ribbon" value="50000">
+            <input type="number" id="input-salary" class="w-full border border-slate-300 rounded p-2 sm:p-1.5 font-mono text-emerald-700 font-bold focus:outline-none focus:border-excel-ribbon text-xs" value="50000">
           </div>
           <div>
             <label class="block font-bold text-slate-700 mb-1">每月工作天數</label>
-            <input type="number" step="0.25" id="input-workdays" class="w-full border border-slate-300 rounded p-1.5 font-mono" value="21.75">
+            <input type="number" step="0.25" id="input-workdays" class="w-full border border-slate-300 rounded p-2 sm:p-1.5 font-mono text-xs" value="21.75">
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-2">
+        <div class="grid grid-cols-2 gap-2.5">
           <div>
             <label class="block font-bold text-slate-700 mb-1">上班時間</label>
-            <input type="time" id="input-start" class="w-full border border-slate-300 rounded p-1.5 font-mono" value="09:00">
+            <input type="time" id="input-start" class="w-full border border-slate-300 rounded p-2 sm:p-1.5 font-mono text-xs" value="09:00">
           </div>
           <div>
             <label class="block font-bold text-slate-700 mb-1">下班時間</label>
-            <input type="time" id="input-end" class="w-full border border-slate-300 rounded p-1.5 font-mono" value="18:00">
+            <input type="time" id="input-end" class="w-full border border-slate-300 rounded p-2 sm:p-1.5 font-mono text-xs" value="18:00">
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-2">
+        <div class="grid grid-cols-2 gap-2.5">
           <div>
             <label class="block font-bold text-slate-700 mb-1">午休開始時間</label>
-            <input type="time" id="input-lunch-start" class="w-full border border-slate-300 rounded p-1.5 font-mono" value="12:00">
+            <input type="time" id="input-lunch-start" class="w-full border border-slate-300 rounded p-2 sm:p-1.5 font-mono text-xs" value="12:00">
           </div>
           <div>
             <label class="block font-bold text-slate-700 mb-1">午休結束時間</label>
-            <input type="time" id="input-lunch-end" class="w-full border border-slate-300 rounded p-1.5 font-mono" value="13:30">
+            <input type="time" id="input-lunch-end" class="w-full border border-slate-300 rounded p-2 sm:p-1.5 font-mono text-xs" value="13:30">
           </div>
         </div>
 
-        <div class="flex items-center justify-between p-2 bg-slate-50 border rounded">
+        <div class="flex items-center justify-between p-2.5 bg-slate-50 border rounded">
           <span class="font-bold text-slate-700">午休時間是否計薪？</span>
-          <select id="input-paid-lunch" class="border border-slate-300 rounded px-2 py-1 font-mono text-xs">
-            <option value="false">否 (午休時間不計薪)</option>
+          <select id="input-paid-lunch" class="border border-slate-300 rounded px-2 py-1 font-mono text-xs bg-white">
+            <option value="false">否 (午休不計薪)</option>
             <option value="true">是 (帶薪午休)</option>
           </select>
         </div>
@@ -273,22 +267,22 @@
           <label class="block font-bold text-emerald-800 text-xs flex items-center gap-1">
             <i class="fa-solid fa-bullseye"></i> 單一願望解鎖目標
           </label>
-          <div class="grid grid-cols-2 gap-2">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div>
               <label class="block text-[11px] text-slate-600 mb-0.5">目標名稱</label>
-              <input type="text" id="input-wish-name" class="w-full border border-slate-300 rounded p-1.5 text-xs" value="AirPods Pro 2">
+              <input type="text" id="input-wish-name" class="w-full border border-slate-300 rounded p-2 sm:p-1.5 text-xs bg-white" value="AirPods Pro 2">
             </div>
             <div>
               <label class="block text-[11px] text-slate-600 mb-0.5">目標金額 ($)</label>
-              <input type="number" id="input-wish-target" class="w-full border border-slate-300 rounded p-1.5 font-mono text-xs font-bold text-emerald-700" value="7490">
+              <input type="number" id="input-wish-target" class="w-full border border-slate-300 rounded p-2 sm:p-1.5 font-mono text-xs font-bold text-emerald-700 bg-white" value="7490">
             </div>
           </div>
         </div>
       </div>
 
-      <div class="mt-4 flex justify-end space-x-2">
-        <button onclick="closeConfigModal()" class="px-4 py-1.5 border border-slate-300 rounded text-slate-600 hover:bg-slate-100">取消</button>
-        <button onclick="saveConfig()" class="px-4 py-1.5 bg-excel-ribbon hover:bg-excel-darkRibbon text-white rounded font-bold">套用變更</button>
+      <div class="p-3 border-t bg-slate-50 flex justify-end space-x-2 shrink-0 rounded-b-xl sm:rounded-b-lg">
+        <button onclick="closeConfigModal()" class="px-4 py-2 sm:py-1.5 border border-slate-300 rounded text-slate-600 hover:bg-slate-100 text-xs">取消</button>
+        <button onclick="saveConfig()" class="px-4 py-2 sm:py-1.5 bg-excel-ribbon hover:bg-excel-darkRibbon text-white rounded font-bold text-xs">套用變更</button>
       </div>
     </div>
   </div>
@@ -387,7 +381,7 @@
 
         // Row Header Number
         const th = document.createElement('th');
-        th.className = "excel-header sticky left-0 z-10 border-r border-b border-slate-300 py-1";
+        th.className = "excel-header sticky left-0 z-10 border-r border-b border-slate-300 py-1 text-[11px]";
         th.innerText = r;
         tr.appendChild(th);
 
@@ -395,7 +389,7 @@
           // Empty Separator Row
           for (let c = 0; c < 4; c++) {
             const td = document.createElement('td');
-            td.className = "bg-slate-100/70 border-b border-r border-slate-200 h-4";
+            td.className = `bg-slate-100/70 border-b border-r border-slate-200 h-3.5 ${c === 2 ? 'hidden sm:table-cell' : ''}`;
             tr.appendChild(td);
           }
           tbody.appendChild(tr);
@@ -407,7 +401,7 @@
           const cellId = `${colLetter}${r}`;
           const td = document.createElement('td');
           td.id = `cell-${cellId}`;
-          td.className = "px-2 py-1.5 font-mono text-xs cursor-cell border-slate-200 border-b border-r select-none";
+          td.className = `px-2 py-1.5 font-mono text-[11px] sm:text-xs cursor-pointer border-slate-200 border-b border-r select-none ${c === 2 ? 'hidden sm:table-cell' : ''}`;
           td.setAttribute('onclick', `selectCell('${cellId}')`);
 
           if (r === 1) {
@@ -425,28 +419,28 @@
 
     function fillCellInitialContent(cellId, td, row, rowDef) {
       if (row === 1) {
-        if (cellId === 'A1') td.innerText = "核心指標項目 (Metric)";
-        if (cellId === 'B1') td.innerText = "數值 / 狀態數值 (Value)";
-        if (cellId === 'C1') td.innerText = "計算公式 / 單位 (Formula)";
-        if (cellId === 'D1') td.innerText = "視覺進度狀態 (Status)";
+        if (cellId === 'A1') td.innerText = "指標 Metric";
+        if (cellId === 'B1') td.innerText = "數值 Value";
+        if (cellId === 'C1') td.innerText = "計算公式 Formula";
+        if (cellId === 'D1') td.innerText = "視覺進度 Status";
         return;
       }
 
       // Column A: Metric Name
       if (cellId === `A${row}`) {
         td.innerText = rowDef.name;
-        td.className += " text-slate-700 font-sans";
+        td.className += " text-slate-700 font-sans truncate";
       }
       // Column C: Formula Display
       else if (cellId === `C${row}`) {
         td.innerText = rowDef.formula;
-        td.className += " text-slate-400 text-[11px]";
+        td.className += " text-slate-400 text-[10px] sm:text-[11px] truncate";
       }
       // Column B: Dynamic Values
       else if (cellId === 'B2') {
         td.innerHTML = `<span id="val-B2" class="font-bold text-slate-800">$${config.salary.toLocaleString()}</span>`;
       } else if (cellId === 'B3') {
-        td.innerHTML = `<span id="val-B3" class="font-bold text-emerald-700 bg-emerald-100/80 px-1.5 py-0.5 rounded">$0.0000</span>`;
+        td.innerHTML = `<span id="val-B3" class="font-bold text-emerald-700 bg-emerald-100/80 px-1 py-0.5 rounded text-[11px] sm:text-xs">$0.0000</span>`;
       } else if (cellId === 'B4') {
         td.innerHTML = `<span id="val-B4" class="text-slate-800">$0.00</span>`;
       } else if (cellId === 'B5') {
@@ -456,9 +450,9 @@
       } else if (cellId === 'B7') {
         td.innerHTML = `<span id="val-B7" class="text-blue-700 font-bold">0.0%</span>`;
       } else if (cellId === 'B8') {
-        td.innerHTML = `<span id="val-B8" class="font-bold text-slate-700">計算中...</span>`;
+        td.innerHTML = `<span id="val-B8" class="font-bold text-slate-700 truncate">計算中...</span>`;
       } else if (cellId === 'B10') {
-        td.innerHTML = `<span id="val-B10" class="font-bold text-purple-800">${config.wishName} ($${config.wishTarget.toLocaleString()})</span>`;
+        td.innerHTML = `<span id="val-B10" class="font-bold text-purple-800 truncate">${config.wishName} ($${config.wishTarget.toLocaleString()})</span>`;
       } else if (cellId === 'B11') {
         td.innerHTML = `<span id="val-B11" class="font-bold text-emerald-700">0.0%</span>`;
       } else if (cellId === 'B12') {
@@ -472,13 +466,13 @@
       // Column D: Visual Progress / Bars
       else if (cellId === 'D7') {
         td.innerHTML = `
-          <div class="w-full bg-slate-200 h-3 rounded overflow-hidden flex items-center">
+          <div class="w-full bg-slate-200 h-2.5 sm:h-3 rounded overflow-hidden flex items-center min-w-[70px]">
             <div id="bar-work" class="bg-blue-600 h-full transition-all duration-300" style="width: 0%"></div>
           </div>
         `;
       } else if (cellId === 'D11') {
         td.innerHTML = `
-          <div class="w-full bg-slate-200 h-3 rounded overflow-hidden flex items-center">
+          <div class="w-full bg-slate-200 h-2.5 sm:h-3 rounded overflow-hidden flex items-center min-w-[70px]">
             <div id="bar-wish" class="bg-emerald-600 h-full transition-all duration-300" style="width: 0%"></div>
           </div>
         `;
