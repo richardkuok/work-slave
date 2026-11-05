@@ -238,7 +238,7 @@
       transform: scale(0.98);
     }
 
-    /* Mobile Drawer / Modal */
+    /* Mobile Modal Positioned Centered / Upper Centered */
     .modal-backdrop {
       display: none;
       position: fixed;
@@ -249,8 +249,9 @@
       background: rgba(0, 0, 0, 0.75);
       backdrop-filter: blur(6px);
       z-index: 1000;
-      align-items: flex-end;
+      align-items: center; /* 調整為垂直居中 */
       justify-content: center;
+      padding: 16px;
     }
 
     .modal-backdrop.active {
@@ -260,21 +261,27 @@
     .drawer-card {
       background: #1e293b;
       width: 100%;
-      max-width: 500px;
-      border-radius: 24px 24px 0 0;
-      border-top: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 20px 20px;
+      max-width: 480px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 20px;
       max-height: 85vh;
       max-height: 85dvh;
       overflow-y: auto;
-      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
-      animation: slideUp 0.25s ease-out;
-      padding-bottom: calc(24px + env(safe-area-inset-bottom, 16px));
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      animation: fadeInScale 0.2s ease-out;
+      margin-top: -30px; /* 向上抬高 30px 避免虛擬鍵盤遮擋 */
     }
 
-    @keyframes slideUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
+    @keyframes fadeInScale {
+      from { 
+        opacity: 0;
+        transform: scale(0.95) translateY(10px); 
+      }
+      to { 
+        opacity: 1;
+        transform: scale(1) translateY(0); 
+      }
     }
 
     .drawer-header {
@@ -285,7 +292,7 @@
     }
 
     .drawer-title {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 800;
       color: var(--text-main);
     }
@@ -305,7 +312,7 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .form-group label {
@@ -316,7 +323,7 @@
 
     .form-row {
       display: flex;
-      gap: 12px;
+      gap: 10px;
     }
 
     .form-row .form-group {
@@ -326,8 +333,8 @@
     .input-control {
       background: #0f172a;
       border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 12px;
-      padding: 10px 12px;
+      border-radius: 10px;
+      padding: 8px 10px;
       color: #fff;
       font-size: 15px;
       outline: none;
@@ -341,8 +348,8 @@
     .checkbox-row {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin: 6px 0 12px;
+      gap: 8px;
+      margin: 6px 0 10px;
     }
 
     .checkbox-row input[type="checkbox"] {
@@ -352,7 +359,7 @@
     }
 
     .checkbox-row label {
-      font-size: 14px;
+      font-size: 13px;
       color: var(--text-main);
     }
 
@@ -361,8 +368,8 @@
       background: var(--accent-green);
       color: white;
       border: none;
-      padding: 14px;
-      border-radius: 14px;
+      padding: 12px;
+      border-radius: 12px;
       font-size: 16px;
       font-weight: 800;
       cursor: pointer;
@@ -475,7 +482,7 @@
         <label for="inputPaidLunch">午休時間算薪水 (帶薪午休)</label>
       </div>
 
-      <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 10px 0;">
+      <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 8px 0;">
 
       <div class="form-row">
         <div class="form-group">
